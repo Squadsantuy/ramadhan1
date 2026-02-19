@@ -1,96 +1,202 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script defer src="/_vercel/insights/script.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css"
-    />
-    <title>Vercel HTML Starter</title>
-    <meta
-      name="description"
-      content="High-performance HTML based website template."
-    />
-  </head>
-  <body>
-    <h1>Vercel HTML Starter</h1>
-    <p>
-      This template is a simple, but powerful single
-      <code>index.html</code> file deployed to
-      <a href="https://vercel.com">Vercel</a>. When your site is deployed, all
-      static assets (like HTML, JavaScript, CSS, images, and more) are deployed
-      globally to every
-      <a href="https://vercel.com/docs/concepts/edge-network/overview"
-        >Vercel Edge Network</a
-      >
-      region.
-    </p>
-    <h2>Simple, privacy-friendly analytics</h2>
-    <p>
-      Want to understand your visitor traffic? Vercel Analytics gives you
-      first-party, privacy-friendly traffic analytics for your HTML site. This
-      template is already configured using the following script:
-    </p>
-    <pre><code>&lt;script defer src="/_vercel/insights/script.js"&gt;&lt;/script&gt;</code></pre>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/analytics">Vercel Analytics</a>.
-    </p>
-    <h2>Integrated with git</h2>
-    <p>
-      Deploying updates to your site is as simple as
-      <code>git push</code> thanks to Vercel's advanced
-      <a href="https://vercel.com/docs/concepts/git">Git Integration</a>.
-      Support for GitHub, GitLab, Bitbucket is zero-configuration, and with the
-      flexible Vercel CLI and API, you can integrate with any tool possible.
-    </p>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/docs/concepts/git">Git Integration</a>.
-    </p>
-    <h2>Fast <code>gzip</code> compression</h2>
-    <p>
-      To help ensure the smallest possible file sizes for your static assets,
-      the Vercel Edge Network compresses files by default using
-      <code>gzip</code>. You can also optionally use
-      <code>brotli</code> compressesion if you prefer.
-    </p>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/docs/concepts/edge-network/compression"
-        >compression</a
-      >.
-    </p>
-    <h2>Advanced routing configuration</h2>
-    <p>
-      Vercel gives you a variety of ways to configure the routing of your
-      website. For example, adding redirects, rewrites, or headers to your page.
-      While you can use <code>vercel.json</code> to define these through JSON,
-      you can also express your routing configuration as code using
-      <a href="https://vercel.com/docs/concepts/functions/edge-middleware"
-        >Vercel Edge Middleware</a
-      >.
-    </p>
-    <p>
-      Middleware runs before the
-      <a href="https://vercel.com/docs/concepts/edge-network/caching"
-        >Vercel Edge Network Cache</a
-      >, so you can configure routing exactly as your application needs. For
-      example, this template uses <code>middleware.js</code> defined in the root
-      of the repository to add additional security headers to the site:
-    </p>
-    <pre><code>referrer-policy: origin-when-cross-origin
-strict-transport-security: max-age=31536000; includeSubDomains; preload
-x-content-type-options: nosniff
-x-dns-prefetch-control: on
-x-frame-options: DENY</code></pre>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/docs/concepts/functions/edge-middleware"
-        >Vercel Edge Middleware</a
-      >.
-    </p>
-  </body>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ramadhan Protocol</title>
+    <style>
+        /* Reset dan styling dasar */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            overflow: hidden;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        /* Canvas untuk efek Matrix Background */
+        canvas {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        /* Container ucapan di tengah layar */
+        #terminal-box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            background: rgba(0, 0, 0, 0.85);
+            padding: 30px;
+            border: 1px solid #ff0000;
+            border-radius: 8px;
+            box-shadow: 0 0 15px #ff0000, inset 0 0 15px rgba(255, 0, 0, 0.5);
+            width: 90%;
+            max-width: 600px;
+            /* Efek Neon Merah */
+            color: #ff0000;
+            text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #ff0000;
+            min-height: 250px; /* Menjaga ukuran kotak saat teks belum muncul */
+        }
+
+        /* Styling teks kode */
+        .code-line {
+            margin: 10px 0;
+            font-size: 1.1rem;
+            line-height: 1.5;
+            min-height: 1.5rem;
+        }
+
+        /* Styling khusus untuk ucapan utama */
+        .highlight-box {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 25px 0;
+            text-align: center;
+            border-top: 1px dashed #ff0000;
+            border-bottom: 1px dashed #ff0000;
+            padding: 15px 0;
+            display: none; /* Disembunyikan dulu sampai waktunya diketik */
+        }
+
+        /* Animasi kursor berkedip */
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 1.1rem;
+            background-color: #ff0000;
+            animation: blink 1s step-end infinite;
+            vertical-align: middle;
+            margin-left: 5px;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="matrix"></canvas>
+
+    <div id="terminal-box">
+        <div id="console"></div>
+        <span class="cursor" id="cursor"></span>
+    </div>
+
+    <script>
+        // ==========================================
+        // 1. LOGIKA MATRIX DIGITAL RAIN (BACKGROUND)
+        // ==========================================
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const chars = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレゲゼデベペオォコソトノホモヨョロゴゾドボポヴッンABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        const drops = [];
+        for (let x = 0; x < columns; x++) drops[x] = 1;
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#0F0'; // Warna hijau khas matrix
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = chars.charAt(Math.floor(Math.random() * chars.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 33);
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // ==========================================
+        // 2. LOGIKA TYPING EFFECT (TERMINAL DEPAN)
+        // ==========================================
+        const consoleDiv = document.getElementById('console');
+        const cursorDiv = document.getElementById('cursor');
+
+        // Teks yang akan diketik berurutan
+        const scriptLines = [
+            { text: "> [SYSTEM_OVERRIDE] --force", class: "code-line" },
+            { text: "> executing ramadhan_protocol.sh ... <span style='color: #0f0; text-shadow: 0 0 5px #0f0;'>[OK]</span>", class: "code-line" },
+            { text: "> decrypting message ...", class: "code-line" },
+            { text: "Selamat Menjalankan Ibadah Puasa Ramadhan", class: "highlight-box" },
+            { text: "> function getBerkah() { return 'MAX_VALUE'; }", class: "code-line" },
+            { text: "> status: <span style='animation: blink 1s linear infinite;'>ONLINE</span>", class: "code-line" }
+        ];
+
+        let currentLine = 0;
+
+        // Fungsi pengetik canggih (bisa membaca tag HTML tanpa merusaknya)
+        function typeWriter(text, element, callback) {
+            let i = 0;
+            let isTag = false;
+            let currentContent = "";
+            
+            element.style.display = "block"; // Tampilkan elemen saat mulai diketik
+
+            function type() {
+                if (i < text.length) {
+                    let char = text.charAt(i);
+                    if (char === '<') isTag = true;
+                    
+                    currentContent += char;
+                    
+                    if (isTag) {
+                        if (char === '>') isTag = false;
+                    } else {
+                        element.innerHTML = currentContent;
+                    }
+                    
+                    i++;
+                    // Kecepatan ngetik acak biar natural, kalau lagi proses tag HTML langsung skip
+                    let speed = isTag ? 0 : (Math.random() * 40 + 20); 
+                    setTimeout(type, speed);
+                } else {
+                    element.innerHTML = currentContent; // Pastikan semua masuk
+                    if (callback) setTimeout(callback, 600); // Jeda sebelum baris berikutnya
+                }
+            }
+            type();
+        }
+
+        // Fungsi untuk memutar antrean baris teks
+        function processNextLine() {
+            if (currentLine < scriptLines.length) {
+                let lineData = scriptLines[currentLine];
+                let newLine = document.createElement('div');
+                newLine.className = lineData.class;
+                
+                // Masukkan sebelum kursor
+                consoleDiv.appendChild(newLine);
+                
+                // Mulai ngetik
+                typeWriter(lineData.text, newLine, processNextLine);
+                currentLine++;
+            }
+        }
+
+        // Mulai animasi terminal setelah jeda 1 detik
+        setTimeout(processNextLine, 1000);
+
+    </script>
+</body>
 </html>
